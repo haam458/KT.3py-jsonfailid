@@ -1,13 +1,12 @@
 import json
+import requests
 
-with open("products.json", "r",encoding="utf-8") as file:
-    products = json.load(file)
-for products in products:
-    lipstick = products["lipstick"]
-    price = products["price"]
+url = 'https://dummyjson.com/products'
+response = requests.get(url)
 
-    print(f"Toode: {lipstick}")
-    print(f"Hind: {price}")
-    #print("-" * 40)
-    #print(type(products))
-    #print(products)
+if response.status_code == 200:
+    products_data = response.json()
+    for products in products_data['products']:
+        print(f"Hind: {products['price']}\nToode: {products['brand']}\n")
+else:
+    print("Päring ebaõnnestu, staatuskood:", response.status_code)
